@@ -1,15 +1,22 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useStore } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import { Child } from "~/components/Test/Child";
+import { Wrapper } from "~/components/Test/Wrapper";
 
 export default component$(() => {
+  const childs = useStore([1, 2, 3]);
   return (
     <>
-      <h1>Hi 👋</h1>
-      <div>
-        Can't wait to see what you build with qwik!
-        <br />
-        Happy coding.
-      </div>
+      <button onClick$={() => {
+        childs.push(childs.length + 1);
+      }}>
+        Add child
+      </button>
+      <Wrapper>
+        {childs.map((child) => (
+          <Child key={child}>{child}</Child>
+        ))}
+      </Wrapper>
     </>
   );
 });
